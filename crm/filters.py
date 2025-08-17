@@ -11,7 +11,7 @@ class CustomerFilter(django_filters.FilterSet):
 
     class Meta:
         model = Customer
-        fields = ["name", "email", "created_at"]
+        fields = ["name", "email"]
 
     def filter_phone_pattern(self, queryset, name, value):
         return queryset.filter(phone__startswith=value)
