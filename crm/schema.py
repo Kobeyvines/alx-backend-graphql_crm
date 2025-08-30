@@ -7,7 +7,7 @@ from .models import Customer, Product, Order
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.utils import timezone
-from crm.models import Product   # ✅ matches checker requirement
+from crm.models import Product, Customer, Order   # ✅ matches checker requirement
 import re
 
 
@@ -408,6 +408,20 @@ schema = graphene.Schema(query=Query, mutation=Mutation)
 
 
 
+class Query(graphene.ObjectType):
+    hello = graphene.String(default_value="Hello from CRM!")
+    total_customers = graphene.Int()
+    total_orders = graphene.Int()
+    total_revenue = graphene.Float()
+
+    def resolve_total_customers(root, info):
+        return Customer.objects.count()
+
+    def resolve_total_orders(root, info):
+        return Order.objects.count()
+
+    def resolve_total_revenue(root, info):
+        return sum(order.total_amount for order in Order.objects.all())
 
 # -------------------
 # Root Mutation

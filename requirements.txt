@@ -2,3 +2,8 @@ Django>=4.0
 django-crontab
 graphene-django
 gql[requests]
+celery
+django-celery-beat
+redis
+celery[redis]
+
