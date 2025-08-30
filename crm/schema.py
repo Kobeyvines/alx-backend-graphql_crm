@@ -366,11 +366,55 @@ class CreateOrder(graphene.Mutation):
         return CreateOrder(order=order, errors=None)
 
 
+class UpdateLowStockProducts(graphene.Mutation):
+    class Arguments:
+        # no input arguments, it's a scheduled restock
+        pass
+
+    updated_products = graphene.List(ProductType)
+    message = graphene.String()
+
+    @classmethod
+    def mutate(cls, root, info):
+        low_stock_products = Product.objects.filter(stock__lt=10)
+        updated = []
+
+        for product in low_stock_products:
+            product.stock += 10
+            product.save()
+            updated.append(product)
+
+        return UpdateLowStockProducts(
+            updated_products=updated,
+            message=f"{len(updated)} product(s) updated successfully."
+        )
+
+class Mutation(graphene.ObjectType):
+    update_low_stock_products = UpdateLowStockProducts.Field()
+    create_customer = CreateCustomer.Field()
+    bulk_create_customers = BulkCreateCustomers.Field()
+    create_product = CreateProduct.Field()
+    create_order = CreateOrder.Field()
+
+
+
+
+class Query(graphene.ObjectType):
+    hello = graphene.String(default_value="Hello from CRM!")  # keep hello for Task 2
+    products = graphene.List(ProductType)
+
+    def resolve_products(root, info):
+        return Product.objects.all()
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
+
+
 
 # -------------------
 # Root Mutation
 # -------------------
 class Mutation(graphene.ObjectType):
+    update_low_stock_products = UpdateLowStockProducts.Field()
     create_customer = CreateCustomer.Field()
     bulk_create_customers = BulkCreateCustomers.Field()
     create_product = CreateProduct.Field()
