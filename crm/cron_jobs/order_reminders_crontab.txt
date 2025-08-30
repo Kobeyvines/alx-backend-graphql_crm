@@ -1,1 +1,1 @@
-0 8 * * * /usr/bin/python3 /absolute/path/to/your/project/crm/cron_jobs/send_order_reminders.py
+0 9 * * * /usr/bin/python3 /home/kobey/Documents/PROJECTS/alx-backend-graphql_crm/crm/cron_jobs/send_order_reminders.py
