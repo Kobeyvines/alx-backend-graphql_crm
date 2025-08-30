@@ -34,8 +34,7 @@ def log_crm_heartbeat():
         with open(LOG_FILE, "a") as f:
             f.write(f"{timestamp} GraphQL check failed: {e}\n")
 
-LOG_FILE = "/tmp/lowstockupdates_log.txt"  
-
+LOG_FILE = "/tmp/low_stock_updates_log.txt"
 def update_low_stock():
     """
     Runs GraphQL mutation to restock low-stock products and logs results.
