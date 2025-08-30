@@ -34,6 +34,8 @@ def log_crm_heartbeat():
         with open(LOG_FILE, "a") as f:
             f.write(f"{timestamp} GraphQL check failed: {e}\n")
 
+LOG_FILE = "/tmp/lowstockupdates_log.txt"  
+
 def update_low_stock():
     """
     Runs GraphQL mutation to restock low-stock products and logs results.
@@ -41,7 +43,6 @@ def update_low_stock():
     timestamp = datetime.now().strftime("%d/%m/%Y-%H:%M:%S")
 
     try:
-        # GraphQL client setup
         transport = RequestsHTTPTransport(
             url="http://localhost:8000/graphql",
             verify=True,
