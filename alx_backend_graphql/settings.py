@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "graphene_django",
     "crm",
     "django_filters",
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -104,6 +105,11 @@ AUTH_PASSWORD_VALIDATORS = [
 GRAPHENE = {
     "SCHEMA": "alx_backend_graphql.schema.schema"  # points to schema.py
 }
+
+CRONJOBS = [
+    ('*/5 * * * *', 'crm.cron.log_crm_heartbeat'),
+]
+
 
 
 # Internationalization
